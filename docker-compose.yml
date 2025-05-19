@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel_app
+    container_name: laravel_app
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - APP_ENV=development
+      - APP_DEBUG=true
+      - APP_KEY=YourSecretKey # قم بتغيير هذا المفتاح
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=laravel
+      - DB_USERNAME=root
+      - DB_PASSWORD=your_mysql_password # قم بتغيير كلمة المرور
+  db:
+    image: mysql:5.7
+    container_name: mysql_db
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=laravel
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=your_mysql_password 
+    ports:
+      - "3306:3306"
+volumes:
+  mysql_data:
