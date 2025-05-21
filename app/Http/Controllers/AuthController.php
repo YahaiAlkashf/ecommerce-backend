@@ -21,10 +21,10 @@ class AuthController extends Controller
                 'errors' => $e->errors()
             ], 422);
         }
-    
+
         $email = $request->email;
         $password = $request->password;
-    
+
         if (Auth::attempt(['email' => $email, 'password' => $password])) {
             $user = Auth::user();
             $token = $user->createToken("auth-token")->plainTextToken;
@@ -41,12 +41,13 @@ class AuthController extends Controller
         }
     }
     public function register(Request $request){
+        try{
              $request->validate([
                 'name'=>'required',
                 'email' => 'required|email',
                 'password' => 'required|min:8|confirmed'
             ]);
-       
+
         $user= User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -58,7 +59,11 @@ class AuthController extends Controller
             'token'=>$token,
             'user'=>$user
         ],201);
-        
+        }catch(\Exception $e){
+                    return response()->json($e);
+        }
+
+
     }
 
     public function user(Request $request){
