@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-
+header("Access-Control-Allow-Origin: https://ecommerce-frontend-tan-three.vercel.app");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 Route::middleware('auth:sanctum')->group( function () {
    Route::get('/user',[AuthController::class,'user']);
    Route::get('/logout',[AuthController::class,'logout']);
